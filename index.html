@@ -6,7 +6,7 @@
 	<title>
 		Health Tracker
 	</title>
-
+	<link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/style.css">
 
 </head>
@@ -16,12 +16,19 @@
 	</header>
 
 	<article>
-		<section id="search-bar"> 
+
+		<section id="search-bar">
+			<form id="serach-form">
+				<input id="search-field" type="text">
+				<button id="submit-button" type="submit"> SEARCH
+				<i type="submit" class="fa fa-search" aria-hidden="true"></i>
+				</button>
+			</form> 
 		</section>
 
 		<section id="search-result">
 			<ul id="search-result-list">
-				<li id="search-result-item"></li>
+			
 			</ul>
 		</section>
 	</article>
