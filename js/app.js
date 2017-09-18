@@ -33,6 +33,8 @@ var app = app || {};
 
 		tagName: 'li', 
 
+		template: _.template($("#foods-template").html()),
+
 		events: {
 			"click .add": "addToSelectedFoods"			
 		},
@@ -42,9 +44,8 @@ var app = app || {};
 		},
 
 		render: function() {
-			foodId = food.id,
-			foodName = food.name;
-			foodCalories = food.calories;
+			
+			this.$el.html(this.template(this.model.toJSON()));
 			return this;
 		}, 
 
@@ -59,6 +60,7 @@ var app = app || {};
 
 
 	app.AppView = Backbone.View.extend({
+		
 		el: "header",
 
 		events: {
@@ -108,8 +110,9 @@ var app = app || {};
 			})
 		}, 
 
-		addOne: function(event) {
-
+		addOne: function(food) {
+			var view = new app.FoodView({ model: food });
+			this.$searchResults.append(view.render().el);
 		}
 
 
