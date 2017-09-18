@@ -11,12 +11,28 @@ header,
 footer {
 	width: 100%;
 	height: 50px;
-	background-color: rgb(30,150,30);
+	background-color: #fff;
+	color: #f33;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+header {
+	height: 90px;
 }
 
 article {
 	width: 100%;
-	height: calc(100% - 100px);
+	height: calc(100% - 140px);
+	background-color: #fafafa;
+}
+
+aside {
+	width: 100%; 
+	height: 300px;
+	position: absolute;
+	left: -100%;
+	top: 90px;
 	background-color: #ddd;
 }
 
@@ -29,14 +45,21 @@ ul {
 
 li {
 	height: auto;
-	width: 100%;
-	color: #4a4;
+	color: #f33;
 	font-size: 18px;
 	list-style: none;
 	border-bottom: 1px #fff solid;
 	padding: 5px;
 	display: flex;
 	flex-wrap: wrap;
+	background-color: #eee;
+}
+
+h1 {
+	color: #666;
+	margin: auto;
+	margin-left: 15px;
+	font-size: 28px;
 }
 
 #search-bar {
@@ -47,9 +70,6 @@ li {
 	flex-wrap: wrap;
 }
 
-#search-result {
-	height: 100%;
-}
 
 #search-field {
 	width: 75%;
@@ -60,30 +80,33 @@ li {
 	padding-right: 10px;
 }
 
-#submit-button {
+#submit-search {
 	width: 25%;
 	height: 100%;
 	margin: 0;
 	border: none;
-	background-color: rgb(50,200,50);
+	background-color: #3b3;
 	color: #fff;
 }
 
-.add {
-	width: 8%;
-	float: right;
-	padding-right: 0;
+.food {
+	padding-top: 5px;
+	color: #333;
+	width: 80%;
+	font-size: 18px;
 }
 
-.food {
-	width: 100%;
-	margin-top: 0;
-	padding-top: 5px;
+.add {
+	float: right;
+	margin: auto;
+	color: #3b3;
 }
 
 .info {
-	float: right;
-	color: #333;
-	font-size: 16px;
-	width: 92%;
+	float: left;
+	font-size: 14px;
+}
+
+.slide {
+	transform: translateX(100%);
 }

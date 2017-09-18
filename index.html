@@ -13,21 +13,40 @@
 <body>
 
 	<header id="header">
-	</header>
-
-	<article>
+		<i class="fa fa-heartbeat fa-3x" id="stats" aria-hidden="true"></i>
+		<h1> Health Tracker </h1>
 
 		<section id="search-bar">
-			<input id="search-field" type="search">
-			<button id="submit-button"> SEARCH
+			<input id="search-field" type="search" placeholder="Ex: Apple or BigMac">
+			<button id="submit-search"> SEARCH
 			<i class="fa fa-search" aria-hidden="true"></i>
 			</button>
 		</section>
 
-		<section id="search-result">
-			<ul id="search-result-list">
-			</ul>
-		</section>
+	</header>
+
+	<aside>
+		<h3> Your food list </h3>
+		<ul id="selected-foods">
+		<script type="text/template" id="item-template">
+			<li class="view">
+				<input class="toggle" type="checkbox" <%= completed ? 'checked' : '' %>>
+				<label><% name %></label>
+				<span class="info"><label><% calories %></label></span>
+				<span class='add'><i class='fa fa-plus fa-2x' aria-hidden='true'></i></span>			</div>
+			<input class="edit" value="<%- title %>">
+		</script>
+
+
+
+		</ul>
+	</aside>
+
+
+	<article>
+		<ul id="search-result-list">
+		</ul>
+	
 	</article>
 
 
