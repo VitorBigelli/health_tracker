@@ -19,16 +19,12 @@ article {
 	background-color: #ddd;
 }
 
-form {
-	display: flex;
-	flex-wrap: wrap;
-	height: 100%;
-}
-
 #search-bar {
 	width: 100%;
 	height: 40px;
 	background-color: #fff;
+	display: flex;
+	flex-wrap: wrap;
 }
 
 #search-field {
