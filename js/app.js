@@ -1,14 +1,15 @@
 var app = app || {};
 
 (function($) { 
-	'use strict';
 
 	//------------- MODEL -------------//
 
 	app.Food = Backbone.Model.extend({
+
 		defaults: {
-			name: "No food",
-			calories: 0 
+			id: null,
+			name: "",
+			calories: null 
 		}
 
 	}); 
@@ -16,13 +17,14 @@ var app = app || {};
 	//------------- COLLECTIONS -------------//
 
 	var FoodList = Backbone.Collection.extend({
+
 		model: app.Food,
 
-		localStorage: new Backbone.LocalStorage("foods-backbone")
+		localStorage: new Backbone.LocalStorage("foods-backbone"),
 	});
 
-	app.selectedFoods = new app.FoodList();
-	app.search = new app.FoodList();
+	app.selectedFoods = new FoodList();
+	app.searchResult = new FoodList();
 
 
 	//------------- VIEW -------------//
@@ -36,20 +38,13 @@ var app = app || {};
 		},
 
 		initialize: function() {
-
-			this.$searchResults = document.getElementById("search-result-list");
-			var foodName, foodCalories;
 			this.listenTo(app.search, "add", this.addOne);
-
 		},
 
 		render: function() {
 			foodId = food.id,
 			foodName = food.name;
 			foodCalories = food.calories;
-			app.AppView.searchFood.$searchResults.innerHTML += "<li id=" + foodId + ">" + 
-										"<p class='food'><span>" + foodName + "</span>" +
-										"<br><span class='info'>" + foodCalories + " calories</span></p>" + 
 			return this;
 		}, 
 
@@ -62,8 +57,8 @@ var app = app || {};
 		}
 	});
 
-	app.AppView = Backbone.View.extend({
 
+	app.AppView = Backbone.View.extend({
 		el: "header",
 
 		events: {
@@ -72,9 +67,9 @@ var app = app || {};
 		},
 
 		initialize: function() {
-			this.listenTo(this.foods, "add", this.addOne)
-			this.$searchResults = document.getElementById("#search-results-list");
-			
+			this.$searchResults = document.getElementById("search-result-list");
+			this.$selectedFoods = document.getElementById("selected-foods");
+			this.listenTo(app.searchResult, "add", this.addOne);
 		},
 
 		showSelectedFoods: function(event) {
@@ -83,9 +78,9 @@ var app = app || {};
 
 		searchFood: function() {
 			var self = this;
-			this.$searchResults = $(document.getElementById("search-field")).val();
+			this.search = $(document.getElementById("search-field")).val();
 			
-			var url = "https://api.nutritionix.com/v1_1/search/"+ this.$search +
+			var url = "https://api.nutritionix.com/v1_1/search/"+ this.search +
 					"?results=0%3A20&cal_min=0&cal_max=50000&" + 
 					"fields=*";
 
@@ -100,7 +95,6 @@ var app = app || {};
 				var length = items.length;
 
 				for (var i=0; i < length; i++) {
-					console.log("Adding: " +  items[i].fields.item_name);
 					food = {
 						id: items[i].fields.item_id,
 						name: items[i].fields.item_name,
@@ -112,9 +106,15 @@ var app = app || {};
 			.fail( function(error) {
 				window.alert("Error trying to access Nutriotionix")
 			})
+		}, 
+
+		addOne: function(event) {
+
 		}
 
 
 	});
 
 })(jQuery);
+
+new app.AppView();
