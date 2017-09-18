@@ -17,6 +17,7 @@ article {
 	width: 100%;
 	height: calc(100% - 100px);
 	background-color: #ddd;
+	overflow-y: block;
 }
 
 #search-bar {
@@ -42,4 +43,12 @@ article {
 	border: none;
 	background-color: rgb(50,200,50);
 	color: #fff;
+}
+
+.food-item {
+	height: auto;
+	width: 100%;
+	color: #4a4;
+	font-size: 18px;
+	list-style: none;
 }
