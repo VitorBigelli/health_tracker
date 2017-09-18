@@ -4,6 +4,7 @@ body {
 	height: 100%;
 	margin:0;
 	padding: 0;
+	font-family: "Arial", "Open Sans";
 }
 
 header, 
@@ -17,7 +18,25 @@ article {
 	width: 100%;
 	height: calc(100% - 100px);
 	background-color: #ddd;
-	overflow-y: block;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+	height: calc(100% - 40px);
+	overflow-y: scroll;
+}
+
+li {
+	height: auto;
+	width: 100%;
+	color: #4a4;
+	font-size: 18px;
+	list-style: none;
+	border-bottom: 1px #fff solid;
+	padding: 5px;
+	display: flex;
+	flex-wrap: wrap;
 }
 
 #search-bar {
@@ -28,12 +47,17 @@ article {
 	flex-wrap: wrap;
 }
 
+#search-result {
+	height: 100%;
+}
+
 #search-field {
 	width: 75%;
 	height: 100%;
 	margin: 0;
 	border: none;
 	font-size: 18px;
+	padding-right: 10px;
 }
 
 #submit-button {
@@ -45,10 +69,21 @@ article {
 	color: #fff;
 }
 
-.food-item {
-	height: auto;
+.add {
+	width: 8%;
+	float: right;
+	padding-right: 0;
+}
+
+.food {
 	width: 100%;
-	color: #4a4;
-	font-size: 18px;
-	list-style: none;
+	margin-top: 0;
+	padding-top: 5px;
+}
+
+.info {
+	float: right;
+	color: #333;
+	font-size: 16px;
+	width: 92%;
 }

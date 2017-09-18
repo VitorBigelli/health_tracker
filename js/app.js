@@ -22,17 +22,8 @@ $(function() {
 
 	var foods = new FoodList([]);
 
-	var FoodView = Backbone.View.extend({
 
-		initialize: function() {
-						
-		},
 
-		render: function() {
-		},
-
-		
-	});
 
 	var App = Backbone.View.extend({
 
@@ -43,8 +34,9 @@ $(function() {
 			function searchFood() {
 
 				var search = document.getElementById("search-field").value;
+				search = "orange";
 
-				var url = "https://api.nutritionix.com/v1_1/search/"+search+
+				var url = "https://api.nutritionix.com/v1_1/search/"+ search +
 						"?results=0%3A20&cal_min=0&cal_max=50000&" + 
 						"fields=*";
 
@@ -54,12 +46,16 @@ $(function() {
 				});
 
 				$.getJSON(url, function(data) {
-					var items = data.hits; 
+					var items = data.hits;
+					var currentFoods =[];
 					var length = items.length;
-					var display
+					console.log(url);
+					document.getElementById("search-result-list").innerHTML = "";
+
+
 					for (var i=0; i < length; i++) {
 						console.log("Adding: " +  items[i].fields.item_name);
-						var food = new Food({
+						food = new Food({
 							name: items[i].fields.item_name,
 							calories: items[i].fields.nf_calories
 						});
@@ -75,17 +71,23 @@ $(function() {
 		},
 
 		render: function() {
-			var models = foods.models;
-			var length = models.length;
 			var $searchResults = document.getElementById("search-result-list");
 			var foodName, foodCalories;
 
-			foods.each( function(food) {
-				foodName = food.attributes.name;
-				foodCalories = food.attributes.nf_calories;
-				$searchResults.innerHTML += "<li class='food-item'>" + foodName + "</li>";
+			foodName = food.attributes.name;
+			foodCalories = food.attributes.calories;
+			$searchResults.innerHTML += "<li>" + 
+										"<p class='food'>" + foodName + "</p>" +
+										"<span class='info'>" + foodCalories + " calories</span>" + 
+										"<span class='add'><i class='fa fa-plus' aria-hidden='true'></i></span>" + 
+										"<span class='add-result'></span></li>";
 
-			}, this); 
+			this.item = $("li:last-of-type"); 
+			this.add = this.item.children(".add")[0];
+			
+			this.add.addEventListener("click", (function() {
+				console.log("Clicked");
+			}), this );
 
 			return this;
 		}
