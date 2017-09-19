@@ -29,17 +29,36 @@ var app = app || {};
 
 	//------------- VIEW -------------//
 
+	app.SelectedFoodsView = Backbone.View.extend({
+
+		tagName: 'li',
+
+		template: _.template($("#selected-foods-template").html()),
+
+		events: {
+			"click .remove": "removeFromSelectedFoods",
+		}, 
+
+		initialize: function() {
+			this.listenTo(app.selectedFoods, "remove", this.addOne);
+		},
+
+		render: function() {
+			this.$el.html(this.template(this.model.toJSON()));
+			return this;
+		}
+	});
+
+
 	app.FoodView = Backbone.View.extend({
 
 		tagName: 'li', 
 
-		template1: _.template($("#foods-template").html()),
+		template: _.template($("#foods-template").html()),
 
-		template2: _.template($("#selected-foods-template").html()),
 
 		events: {
 			"click .add": "addToSelectedFoods",
-			"click .remove": "removeFromSelectedFoods"			
 		},
 
 		initialize: function() {
@@ -47,23 +66,15 @@ var app = app || {};
 			this.listenTo(app.selectedFoods, "add", this.addOne);
 		},
 
-		render1: function() {
-			this.$el.html(this.template1(this.model.toJSON()));
+		render: function() {
+			this.$el.html(this.template(this.model.toJSON()));
 			return this;
 		},
 
-		render2: function() {
-			this.$el.html(this.template2(this.model.toJSON()));
-			return this;		
-		},
-
-		addToSelectedFoods: function() {
-			app.selectedFoods.push(this.model.toJSON());
-		}, 
-
-		addOne: function(food) {
-			var view = new app.FoodView({ model: food });
-			this.$selectedFoods.append(view.render2().el);		
+		addToSelectedFoods: function(event) {
+			console.log(this);
+			var view = new app.SelectedFoodsView({model: this.model});
+			this.$selectedFoods.append(view.render().el);
 		}
 	});
 
@@ -79,8 +90,6 @@ var app = app || {};
 
 		initialize: function() {
 			this.$searchResults = document.getElementById("search-result-list");
-			this.$selectedFoods = document.getElementById("selected-foods");
-			console.log(this.$selectedFoods);
 			this.listenTo(app.searchResult, "add", this.addOne);
 		},
 
@@ -121,10 +130,14 @@ var app = app || {};
 		}, 
 
 		addOne: function(food) {
+			console.log(food);
 			var view = new app.FoodView({ model: food });
-			this.$searchResults.append(view.render1().el);
-		}
+			this.$searchResults.append(view.render().el);
+		},
 
+		addToSelectedFoods: function(food) {
+			app.selectedFoods.add(food);
+		}
 	});
 
 })(jQuery);
