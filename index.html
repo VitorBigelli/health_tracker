@@ -28,6 +28,20 @@
 	<aside>
 		<h3> Your food list </h3>
 		<ul id="selected-foods">
+			<script type="text/template" id="selected-foods-template">
+				<p class="food">
+						<span>
+						<%= name %> 
+						</span>
+						<br>
+						<span class="info">
+						<%= calories %>
+						</span>
+					</p>
+					<button class="remove" >
+						<i class="fa fa-close fa-2x"></i>
+					</button>
+			</script>
 		</ul>
 	</aside>
 
@@ -44,9 +58,9 @@
 						<%= calories %>
 						</span>
 					</p>
-					<span class="add">
+					<button class="add">
 						<i class="fa fa-plus fa-2x"></i>
-					</span>
+					</button>
 			</script>	
 
 		</ul>
