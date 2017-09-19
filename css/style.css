@@ -64,7 +64,6 @@ h1 {
 
 h3 {
 	width: 50%;
-	float: left;
 }
 
 #selected-foods-header {
@@ -141,4 +140,12 @@ h3 {
 
 .slide {
 	transform: translateX(100%);
+}
+
+.calories-info {
+	width: 50%;
+	margin-top: 5px;
+	margin-bottom: 0;
+	float: right;
+	text-align: right;
 }

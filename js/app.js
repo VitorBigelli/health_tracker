@@ -9,7 +9,6 @@ var app = app || {};
 		defaults: {
 			name: "",
 			calories: null,
-			quantity: 1
 		}
 	}); 
 
@@ -19,6 +18,8 @@ var app = app || {};
 
 		model: app.Food,
 
+		// Compute the sum of the "calories" property
+		// for all the models
 		totalCalories: function(){
     		return this.reduce(function(memo, value) {
         		return memo + value.get("calories");
@@ -36,21 +37,21 @@ var app = app || {};
 
 		 el: "#total-calories",
 
-		 tagName: "p",
+		 tagName: "span",
 
 		 template: _.template($("#total-calories-template").html()),
-
-		 tagName: "p", 
 
 		 initialize: function() {
 
 		 },
 
 		 render: function() {
-		 		this.content = {
-		 		total: app.selectedFoods.totalCalories()
-		 	}
+		 	this.content = {
+		 		total: app.selectedFoods.totalCalories().toFixed(2)
+		 	};
+		 	console.log(this.$el);
 		 	var view = this.$el.html(this.template(this.content));
+		 	console.log(view);
 		 	this.el.append(view);
 		 }
 
@@ -75,13 +76,14 @@ var app = app || {};
 			this.$el.html(this.template(this.model.toJSON()));
 			return this;
 		},
-
+		// This function remove a model from the selectedFoods collection,
+		// remove its associated DOM element and update the total calories
+		// field by calling app.AppView.TotalCaloriesView.render();
 		removeFromSelectedFoods: function (event) {
-			app.selectedFoods.remove(this.model);
+			console.log(this.model);
+			app.selectedFoods.remove(app.selectedFoods.where(this.model.attributes)[0]);
 			event.target.parentElement.parentElement.remove();
-			
-			app.AppView.TotalCaloriesView.render()
-
+			app.AppView.TotalCaloriesView.render();
 		}
 	});
 
@@ -106,9 +108,14 @@ var app = app || {};
 			this.$el.addClass("food-item");
 			return this;
 		},
-
+		// This function add a new model to the selectedFoods collection,
+		// Iniciate a new SelectedFoodsView and append it to the page.
+		// Then call app.AppView.TotalCalories.render() to update the
+		// TotalCalories field.
 		addToSelectedFoods: function() {
-			app.selectedFoods.add(new app.Food(this.model.attributes));
+			var model = new app.Food(this.model.attributes);
+			app.selectedFoods.add(model);
+
 			var view = new app.SelectedFoodsView({model: this.model});
 			this.$selectedFoods.append(view.render().el);
 
@@ -122,20 +129,33 @@ var app = app || {};
 
 		events: {
 			"click #submit-search": "searchFood",
-			"click #stats": "showSelectedFoods",
+			"click #stats": "toggleSelectedFoods",
 		},
 
 		initialize: function() {
+
+
 			this.$searchResults = document.getElementById("search-result-list");
+			// Listen for an add event in the app.searchResult collection
+			// and call the addOne function when the event is triggered.
 			this.listenTo(app.searchResult, "add", this.addOne);
+			// Initiate a TotalCaloriesView()
 			this.TotalCaloriesView = new app.TotalCaloriesView();
 		},
 
-		showSelectedFoods: function(event) {
+		hideSelectedFoods: function() {
+			$(document.getElementsByTagName("aside")[0]).removeClass("slide");
+		},
+
+		toggleSelectedFoods: function(event) {
 			$(document.getElementsByTagName("aside")[0]).toggleClass("slide");
 		}, 
 
+		// This function request the Nutritionix API using the text 
+		// typed by the user and aqdd the 20 first results in the 
+		// app.searchResult collection
 		searchFood: function() {
+			this.hideSelectedFoods();
 			var self = this;
 			this.search = $(document.getElementById("search-field")).val();
 			$(".food-item").remove();
@@ -155,18 +175,20 @@ var app = app || {};
 
 				for (var i=0; i < length; i++) {
 					food = {
-						id: items[i].fields.item_id,
 						name: items[i].fields.item_name,
 						calories: items[i].fields.nf_calories
 					};
 					app.searchResult.push(food);
 				}
 			})
+			// failback function-
 			.fail( function(error) {
 				window.alert("Error trying to access Nutriotionix")
 			})
 		}, 
 
+		// Create a FoodView element with the passed food
+		// and append it to the page
 		addOne: function(food) {
 			view = new app.FoodView({ model: food });
 			this.$searchResults.append(view.render().el);
