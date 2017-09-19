@@ -7,9 +7,9 @@ var app = app || {};
 	app.Food = Backbone.Model.extend({
 
 		defaults: {
-			id: null,
 			name: "",
-			calories: null 
+			calories: null,
+			quantity: 1
 		}
 	}); 
 
@@ -19,6 +19,12 @@ var app = app || {};
 
 		model: app.Food,
 
+		totalCalories: function(){
+    		return this.reduce(function(memo, value) {
+        		return memo + value.get("calories");
+    		}, 0);
+		},
+
 		localStorage: new Backbone.LocalStorage("foods-backbone"),
 	});
 
@@ -26,6 +32,29 @@ var app = app || {};
 	app.searchResult = new FoodList();
 
 	//------------- VIEW -------------//
+	app.TotalCaloriesView = Backbone.View.extend({
+
+		 el: "#total-calories",
+
+		 tagName: "p",
+
+		 template: _.template($("#total-calories-template").html()),
+
+		 tagName: "p", 
+
+		 initialize: function() {
+
+		 },
+
+		 render: function() {
+		 		this.content = {
+		 		total: app.selectedFoods.totalCalories()
+		 	}
+		 	var view = this.$el.html(this.template(this.content));
+		 	this.el.append(view);
+		 }
+
+	});
 
 	app.SelectedFoodsView = Backbone.View.extend({
 
@@ -38,7 +67,8 @@ var app = app || {};
 		}, 
 
 		initialize: function() {
-			this.listenTo(app.selectedFoods, "remove", this.addOne);
+			this.$totalCalories = document.getElementById("total-calories");
+			this.listenTo(app.selectedFoods, "remove", this.updateTotalCalories);
 		},
 
 		render: function() {
@@ -48,11 +78,12 @@ var app = app || {};
 
 		removeFromSelectedFoods: function (event) {
 			app.selectedFoods.remove(this.model);
-
 			event.target.parentElement.parentElement.remove();
+			
+			app.AppView.TotalCaloriesView.render()
+
 		}
 	});
-
 
 	app.FoodView = Backbone.View.extend({
 
@@ -67,6 +98,7 @@ var app = app || {};
 
 		initialize: function() {
 			this.$selectedFoods = document.getElementById("selected-foods");
+			this.$totalCalories = document.getElementById("total-calories");
 		},
 
 		render: function() {
@@ -76,19 +108,17 @@ var app = app || {};
 		},
 
 		addToSelectedFoods: function() {
-			app.selectedFoods.push(this.model.attributes);
-
+			app.selectedFoods.add(new app.Food(this.model.attributes));
 			var view = new app.SelectedFoodsView({model: this.model});
 			this.$selectedFoods.append(view.render().el);
+
+			app.AppView.TotalCaloriesView.render();
 		}
 	});
-
 
 	app.AppView = Backbone.View.extend({
 		
 		el: "header",
-
-		tagName: "p",
 
 		events: {
 			"click #submit-search": "searchFood",
@@ -98,6 +128,7 @@ var app = app || {};
 		initialize: function() {
 			this.$searchResults = document.getElementById("search-result-list");
 			this.listenTo(app.searchResult, "add", this.addOne);
+			this.TotalCaloriesView = new app.TotalCaloriesView();
 		},
 
 		showSelectedFoods: function(event) {
@@ -137,7 +168,7 @@ var app = app || {};
 		}, 
 
 		addOne: function(food) {
-			var view = new app.FoodView({ model: food });
+			view = new app.FoodView({ model: food });
 			this.$searchResults.append(view.render().el);
 		}
 
@@ -145,4 +176,4 @@ var app = app || {};
 
 })(jQuery);
 
-new app.AppView();
+app.AppView = new app.AppView();
