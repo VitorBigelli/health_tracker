@@ -156,7 +156,6 @@ var app = app || {};
 		// app.searchResult collection
 		searchFood: function() {
 			this.hideSelectedFoods();
-			var self = this;
 			this.search = $(document.getElementById("search-field")).val();
 			$(".food-item").remove();
 			var url = "https://api.nutritionix.com/v1_1/search/"+ this.search +
@@ -170,11 +169,10 @@ var app = app || {};
 
 			$.getJSON(url, function(data) {
 				var items = data.hits;
-				var currentFoods =[];
 				var length = items.length;
 
 				for (var i=0; i < length; i++) {
-					food = {
+					var food = {
 						name: items[i].fields.item_name,
 						calories: items[i].fields.nf_calories
 					};
@@ -183,14 +181,14 @@ var app = app || {};
 			})
 			// failback function-
 			.fail( function(error) {
-				window.alert("Error trying to access Nutriotionix")
-			})
+				window.alert("Error trying to access Nutriotionix");
+			});
 		}, 
 
 		// Create a FoodView element with the passed food
 		// and append it to the page
 		addOne: function(food) {
-			view = new app.FoodView({ model: food });
+			var view = new app.FoodView({ model: food });
 			this.$searchResults.append(view.render().el);
 		}
 
