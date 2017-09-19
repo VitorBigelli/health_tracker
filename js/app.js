@@ -11,7 +11,6 @@ var app = app || {};
 			name: "",
 			calories: null 
 		}
-
 	}); 
 
 	//------------- COLLECTIONS -------------//
@@ -25,7 +24,6 @@ var app = app || {};
 
 	app.selectedFoods = new FoodList();
 	app.searchResult = new FoodList();
-
 
 	//------------- VIEW -------------//
 
@@ -46,6 +44,12 @@ var app = app || {};
 		render: function() {
 			this.$el.html(this.template(this.model.toJSON()));
 			return this;
+		},
+
+		removeFromSelectedFoods: function (event) {
+			app.selectedFoods.remove(this.model);
+
+			event.target.parentElement.parentElement.remove();
 		}
 	});
 
@@ -63,16 +67,17 @@ var app = app || {};
 
 		initialize: function() {
 			this.$selectedFoods = document.getElementById("selected-foods");
-			this.listenTo(app.selectedFoods, "add", this.addOne);
 		},
 
 		render: function() {
 			this.$el.html(this.template(this.model.toJSON()));
+			this.$el.addClass("food-item");
 			return this;
 		},
 
-		addToSelectedFoods: function(event) {
-			console.log(this);
+		addToSelectedFoods: function() {
+			app.selectedFoods.push(this.model.attributes);
+
 			var view = new app.SelectedFoodsView({model: this.model});
 			this.$selectedFoods.append(view.render().el);
 		}
@@ -82,6 +87,8 @@ var app = app || {};
 	app.AppView = Backbone.View.extend({
 		
 		el: "header",
+
+		tagName: "p",
 
 		events: {
 			"click #submit-search": "searchFood",
@@ -100,7 +107,7 @@ var app = app || {};
 		searchFood: function() {
 			var self = this;
 			this.search = $(document.getElementById("search-field")).val();
-			
+			$(".food-item").remove();
 			var url = "https://api.nutritionix.com/v1_1/search/"+ this.search +
 					"?results=0%3A20&cal_min=0&cal_max=50000&" + 
 					"fields=*";
@@ -130,14 +137,10 @@ var app = app || {};
 		}, 
 
 		addOne: function(food) {
-			console.log(food);
 			var view = new app.FoodView({ model: food });
 			this.$searchResults.append(view.render().el);
-		},
-
-		addToSelectedFoods: function(food) {
-			app.selectedFoods.add(food);
 		}
+
 	});
 
 })(jQuery);

@@ -15,7 +15,6 @@
 	<header id="header">
 		<i class="fa fa-heartbeat fa-3x" id="stats" aria-hidden="true"></i>
 		<h1> Health Tracker </h1>
-
 		<section id="search-bar">
 			<input id="search-field" type="search" placeholder="Ex: Apple or BigMac">
 			<button id="submit-search"> SEARCH
@@ -26,7 +25,17 @@
 	</header>
 
 	<aside>
-		<h3> Your food list </h3>
+		<div id="selected-foods-header">
+			<h3> Your food list </h3>
+			<p id="total-calories">
+				<script type="text/template" id="total-calories-template">
+					<span>Total calories: </span>
+					<br>
+					<span><%= total %></span>
+				</script>
+			</p>
+		</div>
+
 		<ul id="selected-foods">
 			<script type="text/template" id="selected-foods-template">
 				<p class="food">
@@ -37,10 +46,10 @@
 						<span class="info">
 						<%= calories %>
 						</span>
-					</p>
-					<button class="remove" >
-						<i class="fa fa-close fa-2x"></i>
-					</button>
+				</p>
+				<button class="remove" >
+					<i class="fa fa-close fa-2x"></i>
+				</button>
 			</script>
 		</ul>
 	</aside>
