@@ -69,12 +69,14 @@ h1 {
 }
 
 h3 {
-	width: 50%;
-	margin:auto;
+	width: 100%;
+	text-align: center;
+	padding-top: 15px;
+	margin: auto;
 }
 
 #selected-foods-header {
-	height: 50px;
+	height: 70px;
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -87,10 +89,8 @@ h3 {
 }
 
 #total-calories {
-	float: right;
-	width: 50%;
 	font-size: 16px;
-	text-align: right;
+	text-align: left;
 }
 
 #search-bar {
@@ -156,11 +156,10 @@ h3 {
 }
 
 .calories-info {
-	width: 50%;
+	width: 100%;
 	margin-top: 5px;
-	margin-bottom: 0;
-	float: right;
-	text-align: right;
+	text-align: left;
+	padding: 10px;
 }
 
 @media screen and (min-width: 700px) {
