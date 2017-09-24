@@ -4,18 +4,19 @@ A single page app that tracks the user's calorie intake, and optionally, other h
 
 ## Running the app
 
-1. Clone the repository or Download and Unzip the ZipFile.
+1. Clone the repository or Download and Unzip the ZipFile;
 2. Via Command Prompt access the created directory; 
-2. Inside the directory, initilializes a new server by writting 
+3. Inside the directory, initilializes a new server by writting 
+``` 
+python -m http.server 8000 
 ```
-python -m http.server 8000
-```
-(Python 3) or 
+, for Python 3 users, or 
 ```
 python -m SimpleHTTPServer 8000
 ```
-(Python 2).
-3. At this point, you should be able to access the ``index.html`` file by accessing the ``http://localhost:8000/`` on your browser.
+for Python 2 users;
+
+4. At this point, you should be able to access the ``index.html`` file by accessing the ``http://localhost:8000/`` on your browser;
 
 Alternatively, you can follow the step 1 then navigate throught the operational system to the created directory and double click the ``index.html`` file.
 
