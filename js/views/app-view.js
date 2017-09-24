@@ -36,6 +36,9 @@ var app = app || {};
         searchFood: function() {
             this.hideSelectedFoods();
             this.search = $(document.getElementById("search-field")).val();
+
+            $(".loader").toggleClass("show-loader");
+
             $(".food-item").remove();
             var url = "https://api.nutritionix.com/v1_1/search/" + this.search +
                 "?results=0%3A20&cal_min=0&cal_max=50000&" +
@@ -74,6 +77,8 @@ var app = app || {};
                 model: food
             });
             this.$searchResults.append(view.render().el);
+            $(".loader").removeClass("show-loader");
+
         }
 
     });
