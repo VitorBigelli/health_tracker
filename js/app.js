@@ -26,7 +26,7 @@ var app = app || {};
             }, 0);
         },
 
-        localStorage: new Backbone.LocalStorage("foods-backbone"),
+        localStorage: new Backbone.LocalStorage("selectedFoods")
     });
 
     app.selectedFoods = new FoodList();
@@ -52,7 +52,6 @@ var app = app || {};
             console.log(this.$el);
             var view = this.$el.html(this.template(this.content));
             console.log(view);
-            this.el.append(view);
         }
 
     });
@@ -121,6 +120,7 @@ var app = app || {};
             });
             this.$selectedFoods.append(view.render().el);
 
+            app.AppView.toggleSelectedFoods();
             app.AppView.TotalCaloriesView.render();
         }
     });
@@ -135,7 +135,7 @@ var app = app || {};
         },
 
         initialize: function() {
-
+            app.selectedFoods.fetch();
 
             this.$searchResults = document.getElementById("search-result-list");
             // Listen for an add event in the app.searchResult collection
