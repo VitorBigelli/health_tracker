@@ -10,6 +10,11 @@ A single page app that tracks the user's calorie intake, and optionally, other h
 ```
 python -m http.server 8000
 ```
+(Python 3) or 
+```
+python -m SimpleHTTPServer 8000
+```
+(Python 2).
 3. At this point, you should be able to access the ``index.html`` file by accessing the ``http://localhost:8000/`` on your browser.
 
 Alternatively, you can follow the step 1 then navigate throught the operational system to the created directory and double click the ``index.html`` file.
