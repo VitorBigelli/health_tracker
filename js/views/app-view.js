@@ -61,7 +61,7 @@ var app = app || {};
                         app.searchResult.push(food);
                     }
                     if (!app.searchResult.length) {
-                        app.AppView.$searchResults.append("No results found")
+                        app.appView.$searchResults.append("No results found")
                     }
                 })
                 // failback function-
@@ -85,4 +85,4 @@ var app = app || {};
 
 })(jQuery);
 
-app.AppView = new app.AppView();
+app.appView = new app.AppView();

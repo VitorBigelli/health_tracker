@@ -2,7 +2,7 @@ var app = app || {};
 
 (function($) {
 
-    app.SelectedFoodsView = Backbone.View.extend({
+    app.SelectedFoodView = Backbone.View.extend({
 
         tagName: 'li',
 
@@ -27,7 +27,7 @@ var app = app || {};
         removeFromSelectedFoods: function(event) {
             app.selectedFoods.remove(app.selectedFoods.where(this.model.attributes)[0]);
             event.target.parentElement.parentElement.remove();
-            app.AppView.TotalCaloriesView.render();
+            app.appView.TotalCaloriesView.render();
         }
     });
 

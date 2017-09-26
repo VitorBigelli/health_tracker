@@ -31,13 +31,13 @@ var app = app || {};
             var model = new app.Food(this.model.attributes);
             $(".food-item").remove();
             app.selectedFoods.add(model);
-            var view = new app.SelectedFoodsView({
+            var view = new app.SelectedFoodView({
                 model: this.model
             });
             this.$selectedFoods.append(view.render().el);
 
-            app.AppView.toggleSelectedFoods();
-            app.AppView.TotalCaloriesView.render();
+            app.appView.toggleSelectedFoods();
+            app.appView.TotalCaloriesView.render();
         }
     });
 
