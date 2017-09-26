@@ -29,15 +29,22 @@ var app = app || {};
         // TotalCalories field.
         addToSelectedFoods: function() {
             var model = new app.Food(this.model.attributes);
+
             $(".food-item").remove();
+
             app.selectedFoods.add(model);
+
             var view = new app.SelectedFoodView({
                 model: this.model
             });
+
             this.$selectedFoods.append(view.render().el);
 
             app.appView.toggleSelectedFoods();
             app.appView.TotalCaloriesView.render();
+
+            console.log("app.selectedFoods");
+            console.log(app.selectedFoods);
         }
     });
 
