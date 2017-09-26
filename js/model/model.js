@@ -11,5 +11,7 @@ var app = app || {};
             calories: null,
         }
     });
+
+    app.localStorage = new Backbone.LocalStorage("selectedFoods");
     
 })();

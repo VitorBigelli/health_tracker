@@ -12,10 +12,7 @@ var app = app || {};
         },
 
         initialize: function() {
-            app.selectedFoods.fetch({
-                success: function() {
-                }
-            });      
+            app.selectedFoods.fetch();      
       
             this.$searchResults = document.getElementById("search-result-list");
             // Listen for an add event in the app.searchResult collection
@@ -23,6 +20,8 @@ var app = app || {};
             this.listenTo(app.searchResult, "add", this.addResult);
             // Initiate a TotalCaloriesView()
             this.TotalCaloriesView = new app.TotalCaloriesView();
+
+            this.render();
         },
 
         hideSelectedFoods: function() {
@@ -65,14 +64,13 @@ var app = app || {};
                         };
                         app.searchResult.push(food);
                     }
+                    $(".loader").removeClass("show-loader");
                     if (!app.searchResult.length) {
-                        $(".loader").removeClass("show-loader");
                         app.appView.$searchResults.innerHTML += "<li class='food-item'>No results found</li>";
                     }
                 })
                 // failback function-
                 .fail(function(error) {
-                    $(".loader").removeClass("show-loader");
                     window.alert("Error trying to access Nutriotionix");
                 });
         },
@@ -85,14 +83,13 @@ var app = app || {};
             });
             this.$searchResults.append(view.render().el);
             $(".loader").removeClass("show-loader");
-
         }, 
 
         render: function() {
-            var length = app.selectedFoods.length;
-            console.log(app.selectedFoods);
+            var length = app.selectedFoods.models.length;
+
             for (var i=0; i < length; i++) {
-                console.log(app.selectedFoods[i]);
+                console.log(app.selectedFoods.models[i]);
             };
 
             this.toggleSelectedFoods();

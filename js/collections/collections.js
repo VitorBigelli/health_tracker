@@ -16,7 +16,7 @@ var app = app || {};
             }, 0);
         },
 
-        localStorage: new Backbone.LocalStorage("selectedFoods")
+        localStorage: app.localStorage
     });
 
     app.selectedFoods = new FoodList();
