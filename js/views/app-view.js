@@ -40,6 +40,7 @@ var app = app || {};
         searchFood: function() {
             this.hideSelectedFoods();
             this.search = $(document.getElementById("search-field")).val();
+            app.searchResult.reset();
             
             $(".loader").toggleClass("show-loader");
 
@@ -67,6 +68,7 @@ var app = app || {};
                         app.searchResult.push(food);
                     }
                     $(".loader").removeClass("show-loader");
+                    console.log(app.searchResult.length);
                     if (!app.searchResult.length) {
                         app.appView.$searchResults.innerHTML += "<li class='food-item'>No results found</li>";
                     }

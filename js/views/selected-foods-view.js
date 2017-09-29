@@ -25,6 +25,7 @@ var app = app || {};
         // remove its associated DOM element and update the total calories
         // field by calling app.AppView.TotalCaloriesView.render();
         removeFromSelectedFoods: function(event) {
+            this.model.destroy();
             app.selectedFoods.remove(app.selectedFoods.where(this.model.attributes)[0]);
             event.target.parentElement.parentElement.remove();
             app.appView.TotalCaloriesView.render();
