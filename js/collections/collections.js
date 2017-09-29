@@ -1,12 +1,15 @@
 var app = app || {};
 
 (function() {
+    'use strict';
 
 //------------- COLLECTIONS -------------//
-
     var FoodList = Backbone.Collection.extend({
 
         model: app.Food,
+
+        localStorage: new Backbone.LocalStorage('selected-foods'),
+
 
         // Compute the sum of the "calories" property
         // for all the models
@@ -14,9 +17,8 @@ var app = app || {};
             return this.reduce(function(memo, value) {
                 return memo + value.get("calories");
             }, 0);
-        },
+        }
 
-        localStorage: app.localStorage
     });
 
     app.selectedFoods = new FoodList();

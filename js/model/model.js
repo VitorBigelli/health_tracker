@@ -1,17 +1,16 @@
 var app = app || {};
 
 (function() {
+	'use strict';
 
     //------------- MODEL -------------//
 
     app.Food = Backbone.Model.extend({
 
         defaults: {
-            name: "",
+            name: '',
             calories: null,
         }
     });
-
-    app.localStorage = new Backbone.LocalStorage("selectedFoods");
     
 })();

@@ -12,16 +12,18 @@ var app = app || {};
         },
 
         initialize: function() {
-            app.selectedFoods.fetch();      
-      
+
+            this.$selectedFoods = document.getElementById("selected-foods");
             this.$searchResults = document.getElementById("search-result-list");
             // Listen for an add event in the app.searchResult collection
             // and call the addResult function when the event is triggered.
             this.listenTo(app.searchResult, "add", this.addResult);
+
             // Initiate a TotalCaloriesView()
             this.TotalCaloriesView = new app.TotalCaloriesView();
 
-            this.render();
+            app.selectedFoods.fetch(); 
+            this.render();           
         },
 
         hideSelectedFoods: function() {
@@ -71,6 +73,7 @@ var app = app || {};
                 })
                 // failback function-
                 .fail(function(error) {
+                    $(".loader").removeClass("show-loader");
                     window.alert("Error trying to access Nutriotionix");
                 });
         },
@@ -86,13 +89,19 @@ var app = app || {};
         }, 
 
         render: function() {
+
             var length = app.selectedFoods.models.length;
 
             for (var i=0; i < length; i++) {
-                console.log(app.selectedFoods.models[i]);
-            };
+                var view = new app.SelectedFoodView({
+                    model: app.selectedFoods.models[i]
+                });
+                this.$selectedFoods.append(view.render().el);
+            }
 
+            this.TotalCaloriesView.render();
             this.toggleSelectedFoods();
+
             return this;
         }
 

@@ -32,7 +32,7 @@ var app = app || {};
 
             $(".food-item").remove();
 
-            app.selectedFoods.add(model);
+            app.selectedFoods.create(model);
 
             var view = new app.SelectedFoodView({
                 model: this.model
@@ -42,9 +42,6 @@ var app = app || {};
 
             app.appView.toggleSelectedFoods();
             app.appView.TotalCaloriesView.render();
-
-            console.log("app.selectedFoods");
-            console.log(app.selectedFoods);
         }
     });
 
